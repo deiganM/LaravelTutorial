@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ListingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // Need to bring in the model I want to use
@@ -16,29 +17,18 @@ use App\Models\Listing;
 |
 */
 
+// Common Resource Routes:
+// index - Show all listings
+// show - Show single listing
+// create - Show form to create new listing
+// store - Store new listing
+// edit - Show form to edit listing
+// update - Update listing
+// destroy - Delete listing
+
 // All listings
-Route::get('/', function () {
-    return view('listings', [
-        // 'heading' is '$heading in the blade
-        'heading' => 'Latest Listings',
-        // 'Listing' is coming from the DB, then the all() method
-        'listings' => Listing::all()
-    ]);
-});
+Route::get('/', [ListingController::class, 'index']);
 
-// Single listings
-// Route::get('/listings/{id}', function ($id) {
-//     return view('listing', [
-//         'listing' => Listing::find($id)
-//     ]);
-// });
-
-// ROUTE MODEL BINDING
-// function (Listing $listing) -> passing in the Listing Model, type-hinting (Listing) and a variable ($listing)
-// what's in the {} of the get, should match, minus the $
-Route::get('/listings/{listing}', function (Listing $listing) {
-    return view('listing', [
-        'listing' => $listing
-    ]);
-});
+// Single listing
+Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
