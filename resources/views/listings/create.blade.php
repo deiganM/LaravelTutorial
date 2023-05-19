@@ -10,7 +10,10 @@
     </header>
 
     {{-- Store listing data route --}}
-    <form method="POST" action="/listings">
+    <form method="POST" action="/listings"
+        {{-- need this part to upload a file --}}
+        enctype="multipart/form-data"
+    >
         {{-- @csrf - stops cross site scripting attacks --}}
         @csrf
         <div class="mb-6">
@@ -23,6 +26,9 @@
                 type="text"
                 class="border border-gray-200 rounded p-2 w-full"
                 name="company"
+                {{-- to keep the orginal data in the input if there was a validation error,
+                     use the "name" value as the parameter --}}
+                value="{{old('company')}}"
             />
 
             @error('company')
@@ -39,6 +45,7 @@
                 class="border border-gray-200 rounded p-2 w-full"
                 name="title"
                 placeholder="Example: Senior Laravel Developer"
+                value="{{old('title')}}"
             />
 
             @error('title')
@@ -58,6 +65,7 @@
                 class="border border-gray-200 rounded p-2 w-full"
                 name="location"
                 placeholder="Example: Remote, Boston MA, etc"
+                value="{{old('location')}}"
             />
 
             @error('location')
@@ -74,6 +82,7 @@
                 type="text"
                 class="border border-gray-200 rounded p-2 w-full"
                 name="email"
+                value="{{old('email')}}"
             />
 
             @error('email')
@@ -93,6 +102,7 @@
                 type="text"
                 class="border border-gray-200 rounded p-2 w-full"
                 name="website"
+                value="{{old('website')}}"
             />
 
             @error('website')
@@ -110,24 +120,29 @@
                 class="border border-gray-200 rounded p-2 w-full"
                 name="tags"
                 placeholder="Example: Laravel, Backend, Postgres, etc"
+                value="{{old('tags')}}"
             />
 
             @error('tags')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
             @enderror
-
+            
         </div>
-{{-- 
+        
         <div class="mb-6">
             <label for="logo" class="inline-block text-lg mb-2">
                 Company Logo
             </label>
             <input
-                type="file"
-                class="border border-gray-200 rounded p-2 w-full"
-                name="logo"
+            type="file"
+            class="border border-gray-200 rounded p-2 w-full"
+            name="logo"
             />
-        </div> --}}
+            
+            @error('logo')
+                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+            @enderror
+        </div>
 
         <div class="mb-6">
             <label
@@ -141,6 +156,9 @@
                 name="description"
                 rows="10"
                 placeholder="Include tasks, requirements, salary, etc"
+                {{-- old helper function not working correctly --}}
+                {{-- value="{{old('description')}}" --}}
+                {{old('description')}}
             ></textarea>
 
             @error('description')

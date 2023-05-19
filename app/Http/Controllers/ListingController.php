@@ -21,7 +21,9 @@ class ListingController extends Controller
     public function index() {
         return view('listings.index', [
             // 'Listing' is coming from the DB, then the all() method
-            'listings' => Listing::latest()->filter(request(['tag', 'search']))->get()
+            // 'listings' => Listing::latest()->filter(request(['tag', 'search']))->get()
+            // showing 2 items per page with paginate
+            'listings' => Listing::latest()->filter(request(['tag', 'search']))->paginate(6) // simplePaginate
         ]);
     }
     // Show single listing
@@ -47,8 +49,15 @@ class ListingController extends Controller
             'description' => 'required'
         ]);
 
+        // have to run artisan command <php artisan storage:link> to create a simlink from the public storage folder
+        // to public folder? after this you can search for photos in url /storage/logos/<logo string from DB>
+        if($request->hasFile('logo')) {
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public'); // this is creating a folder named 'logos'?
+        }
+
         Listing::create($formFields);
 
-        return redirect('/');
+        return redirect('/')->with('message', 'Listing created successfully!
+        ');
     }
 }
