@@ -26,9 +26,20 @@ use App\Models\Listing;
 // update - Update listing
 // destroy - Delete listing
 
+// basic workflow of a new feature
+//  - new route, new controller method, new view
+
 // All listings
 Route::get('/', [ListingController::class, 'index']);
 
-// Single listing
-Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
+// Show Create Form
+Route::get('/listings/create', [ListingController::class, 'create']);
+
+// Store listing data
+Route::post('/listings', [ListingController::class, 'store']);
+
+// Single listing
+// WILDCARD ROUTES TO THE BOTTOM! WILDCARD PART CAUSES ISSUES
+    // could not find </listings/create>
+Route::get('/listings/{listing}', [ListingController::class, 'show']);

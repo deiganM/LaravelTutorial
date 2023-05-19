@@ -9,6 +9,9 @@ class Listing extends Model
 {
     use HasFactory;
 
+    // allow mass assignment, need this to add a gig to the database
+    protected $fillable = ['title', 'company', 'location', 'website', 'tags', 'email', 'description'];
+
     // public function scopeFilter($query, array $filters) {
     //     dd($filters['tag']);
     // }
