@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ListingController;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 // Need to bring in the model I want to use
-use App\Models\Listing;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ListingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ use App\Models\Listing;
 // basic workflow of a new feature
 //  - new route, new controller method, new view
 
+// LISTING CONTROLLER ROUTES
 // All listings
 Route::get('/', [ListingController::class, 'index']);
 
@@ -52,3 +54,13 @@ Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
 // WILDCARD ROUTES TO THE BOTTOM! WILDCARD PART CAUSES ISSUES
     // could not find </listings/create>
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
+
+// USER CONTROLLER ROUTES
+// Show Register/Create form
+Route::get('/register', [UserController::class, 'create']);
+
+// Create New User
+Route::post('/users', [UserController::class, 'store']);
+
+// Logout user
+Route::post('/logout', [UserController::class, 'logout']);
