@@ -45,4 +45,25 @@ class UserController extends Controller
 
         return redirect('/')->with('message', 'You have been logged out!');
     }
+    // show login form
+    public function login() {
+        return view('users.login');
+    }
+    // authenticate user, trying the request helper here instead -> request()
+    public function authenticate() {
+        $formFields = request()->validate([
+            'email' => ['required', 'email'],
+            'password' => 'required'
+        ]);
+        // attempt to log the user in
+        if(auth()->attempt($formFields)) {
+            // regenerate a session id
+            request()->session()->regenerate();
+
+            return redirect('/')->with('message', 'You are now logged in');
+            // Else. You don't want to say invalid email or password,
+            // This could cause a security issue, just have one generic credential error message
+        }
+        return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
+    }
 }
