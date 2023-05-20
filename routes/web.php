@@ -39,6 +39,15 @@ Route::get('/listings/create', [ListingController::class, 'create']);
 // Store listing data
 Route::post('/listings', [ListingController::class, 'store']);
 
+// Show Edit form
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
+
+// Update listing. THIS IS AN ENDPOINT /listings/{listing}
+Route::put('/listings/{listing}', [ListingController::class, 'update']);
+
+// Delete listing
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
+
 // Single listing
 // WILDCARD ROUTES TO THE BOTTOM! WILDCARD PART CAUSES ISSUES
     // could not find </listings/create>
