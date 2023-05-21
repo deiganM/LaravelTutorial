@@ -55,6 +55,10 @@ class ListingController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public'); // this is creating a folder named 'logos'?
         }
 
+        // attach the current logged in user to the form being submitted
+        // NOT WORKING
+        $formFields['user_id'] = auth()->id;
+
         Listing::create($formFields);
 
         return redirect('/')->with('message', 'Listing created successfully!

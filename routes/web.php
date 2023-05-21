@@ -35,20 +35,26 @@ use App\Http\Controllers\ListingController;
 Route::get('/', [ListingController::class, 'index']);
 
 
-// Show Create Form
-Route::get('/listings/create', [ListingController::class, 'create']);
+// Show Create Form,
+//  add '->middleware('auth');' to anywhere you don't want guests to access. LOGGED IN MEMBERS ONLY
+Route::get('/listings/create', [ListingController::class, 'create'])
+    ->middleware('auth');
 
 // Store listing data
-Route::post('/listings', [ListingController::class, 'store']);
+Route::post('/listings', [ListingController::class, 'store'])
+    ->middleware('auth');
 
 // Show Edit form
-Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])
+    ->middleware('auth');   
 
 // Update listing. THIS IS AN ENDPOINT /listings/{listing}
-Route::put('/listings/{listing}', [ListingController::class, 'update']);
+Route::put('/listings/{listing}', [ListingController::class, 'update'])
+    ->middleware('auth');
 
 // Delete listing
-Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])
+    ->middleware('auth');
 
 // Single listing
 // WILDCARD ROUTES TO THE BOTTOM! WILDCARD PART CAUSES ISSUES
@@ -57,16 +63,21 @@ Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
 // USER CONTROLLER ROUTES
 // Show Register/Create form
-Route::get('/register', [UserController::class, 'create']);
+Route::get('/register', [UserController::class, 'create'])
+    // only access this if you are a guest
+    ->middleware('guest');
 
 // Create New User
 Route::post('/users', [UserController::class, 'store']);
 
 // Logout user
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])
+    ->middleware('auth');
 
-// show login form
-Route::get('/login', [UserController::class, 'login']);
+// show login form. ->name('login') has to do with middleware/authenticate.php redirectTo()
+Route::get('/login', [UserController::class, 'login'])
+    ->name('login')
+    ->middleware('guest');
 
 // Log in User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
